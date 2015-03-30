@@ -15,7 +15,7 @@
 #include "Model.h"
 
 #define VIEWING_DISTANCE_MIN  3.0
-
+float left=0.0,right=0.0,up=0.0,down=0.0;
 int counter=0,counter1=1;
 int ROUND=0;
 
@@ -145,7 +145,7 @@ void drawTex(Model mod,GLuint tex) {
 //Procedura rysuj¹ca
 void displayFrame() {
 
-	matV=glm::lookAt(glm::vec3(0.0f,0.0f,9.0f),glm::vec3(0.0f,0.0f,0.0f),glm::vec3(0.0f,1.0f,0.0f));
+	matV=glm::lookAt(glm::vec3(0.0f,0.0f,9.0f),glm::vec3(1.0f,0.0f,0.0f),glm::vec3(0.0f,1.0f,0.0f));
 
 	glClearColor(0.25,1.0,0.0,1);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -153,8 +153,8 @@ void displayFrame() {
 
  
 	matM=glm::mat4(1.0f) ;
-
-	matM=glm::scale(matM, glm::vec3(0.2,0.2,0.2));
+	
+	matM=glm::scale(matM, glm::vec3(0.3,0.3,0.3));
 	matM=glm::translate(matM,glm::vec3(0.0,0.0,odleglosc));
 	matM=glm::rotate(matM,rotX,glm::vec3(0.0,1.0,0.0));
 	matM=glm::rotate(matM,rotY,glm::vec3(1.0,0.0,0.0));
@@ -162,6 +162,21 @@ void displayFrame() {
 
 	//Narysuj obiekt
 	drawObject(lego);
+
+
+	matM=glm::mat4(1.0f) ;
+	matM=glm::translate(matM,glm::vec3(right,up,left));
+glUniformMatrix4fv(shaderProgram->getUniformLocation("P"),1, false, glm::value_ptr(matP));
+	glUniformMatrix4fv(shaderProgram->getUniformLocation("V"),1, false, glm::value_ptr(matV));
+	glUniformMatrix4fv(shaderProgram->getUniformLocation("M"),1, false, glm::value_ptr(matM));
+
+glBegin(GL_QUADS);
+    glColor3f(1.0f, 0.0f, 0.0);
+    glVertex2f(0.0, 0.0);
+    glVertex2f(1.0, 0.0);
+    glVertex2f(1.0, 1.0);
+    glVertex2f(0.0, 1.0);
+glEnd();
 
 //	matM=matS;
 
@@ -199,10 +214,12 @@ void changeSize(int w, int h) {
 
 void keyDown(int c, int x, int y)
 {
-	if(c==GLUT_KEY_RIGHT){}
-	if(c==GLUT_KEY_LEFT){}
-	if(c==GLUT_KEY_UP){}
-	if(c==GLUT_KEY_DOWN){}
+	if(c==GLUT_KEY_RIGHT){right++;printf("right %f\n",right);}
+	if(c==GLUT_KEY_LEFT){right--;printf("right %f\n",right);}
+	if(c==GLUT_KEY_UP){up++;printf("up %f\n",up);}
+	if(c==GLUT_KEY_DOWN){up--;printf("up %f\n",up);}
+	if(c==GLUT_KEY_F1){left++;printf("depth %f\n",left);}
+	if(c==GLUT_KEY_F2){left--;printf("depth %f\n",left);}
 	glutPostRedisplay();
 
 }
