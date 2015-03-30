@@ -4,3 +4,4 @@ objs/
 tex/
 *.*~
 main_file
+*.txt
