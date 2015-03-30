@@ -49,6 +49,21 @@ float odleglosc=0.0;
 int rpmdown,lpmdown;
 int g_yClick,g_xClick,g_yClick2;
 
+void processPick (int x, int y)
+{
+	GLint viewport[4];
+	GLubyte pixel[3];
+
+	glGetIntegerv(GL_VIEWPORT,viewport);
+
+	glReadPixels(x,viewport[3]-y,1,1,
+		GL_RGB,GL_UNSIGNED_BYTE,(void *)pixel);
+
+	printf("%d %d %d\n",pixel[0],pixel[1],pixel[2]);
+	
+  printf ("\n");
+   
+}
 
 void vectofl()
 {
@@ -100,6 +115,11 @@ void MouseButton(int button, int state, int x, int y)
 	else if (button == 4)
 	{
 		odleglosc-=0.1;
+	}
+	if (button == GLUT_LEFT_BUTTON)
+	{
+		printf("CLICKED LEFT BUTTON \n");
+		processPick(x,y);
 	}
 }
 
@@ -201,6 +221,8 @@ void gloadobj(const char * path, Model * mod, float tab1[], float tab2[], float 
 	mod->normals = tab2;
 	mod->texCoords = tab3;
 }
+
+
 
 int main(int argc, char **argv) {
 	gloadobj("objs/skeleton.obj",&lego,tabv,tabn,tabt);
