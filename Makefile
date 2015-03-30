@@ -1,4 +1,4 @@
-LIBS=-lGL -lglut -lGLEW
+LIBS=-lGL -lGLU -lglut -lGLEW
 CC=g++
 
 SOURCES=main_file.cpp tga.cpp shaderprogram.cpp moje.cpp

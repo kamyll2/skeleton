@@ -36,6 +36,23 @@ float odleglosc=0.0;
 int rpmdown,lpmdown;
 int g_yClick,g_xClick,g_yClick2;
 
+void processPick (int x, int y)
+{
+	GLint viewport[4];
+	GLubyte pixel[3];
+
+	glGetIntegerv(GL_VIEWPORT,viewport);
+
+	glReadPixels(x,viewport[3]-y,1,1,
+	GL_RGB,GL_UNSIGNED_BYTE,(void *)pixel);
+
+	printf("%d %d %d\n",pixel[0],pixel[1],pixel[2]);
+
+	printf ("\n");
+
+}
+	
+
 void MouseButton(int button, int state, int x, int y)
 {
   // Respond to mouse button presses.
@@ -56,6 +73,12 @@ void MouseButton(int button, int state, int x, int y)
     {
 	odleglosc--;
     }
+	if (button == GLUT_LEFT_BUTTON)
+	 {
+	 printf("CLICKED LEFT BUTTON \n");
+	 processPick(x,y);
+	 }
+
 }
 
 void MouseMotion(int x, int y){
